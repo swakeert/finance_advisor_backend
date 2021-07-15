@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3rd Party
     # Our app
-    "finance_advisor.users",
+    "finance_advisor.core",
+    "finance_advisor.advisee",
+    "finance_advisor.advisor",
+    "finance_advisor.relationship",
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,7 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

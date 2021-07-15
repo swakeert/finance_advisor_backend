@@ -1,3 +1,4 @@
 # Core requirements
 Django==3.2.5
 djangorestframework==3.12.4
+Pillow==8.3.1

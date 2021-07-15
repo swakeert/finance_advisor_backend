@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class UsersConfig(AppConfig):
+class AdviseeConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "finance_advisor.users"
+    name = "finance_advisor.advisee"
