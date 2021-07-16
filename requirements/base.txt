@@ -1,4 +1,12 @@
 # Core requirements
 Django==3.2.5
 djangorestframework==3.12.4
+factory-boy==3.2.0
+
+# Image storage
 Pillow==8.3.1
+
+# Test
+pytest==6.2.4
+pytest-cov==2.12.1
+pytest-django==4.4.0

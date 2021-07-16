@@ -14,7 +14,6 @@ repos:
   - id: detect-aws-credentials
   - id: detect-private-key
   - id: mixed-line-ending
-  - id: name-tests-test
   - id: requirements-txt-fixer
 - repo: https://github.com/psf/black
   rev: 21.6b0
@@ -37,6 +36,7 @@ repos:
   rev: 1.7.0
   hooks:
   - id: bandit
+    args: [--configfile, bandit.yaml]
 
 - repo: https://github.com/pycqa/isort
   rev: 5.5.2

@@ -16,11 +16,17 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+
+from finance_advisor.advisee.urls import advisee_router
+from finance_advisor.advisor.urls import advisor_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/v1/auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("api/v1/advisee/", include(advisee_router.urls)),
+    path("api/v1/advisor/", include(advisor_router.urls)),
 ]
 
-if settings.DEBUG:  # new
+if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

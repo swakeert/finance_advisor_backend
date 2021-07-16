@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 User = get_user_model()
 
@@ -22,11 +24,13 @@ class CustomUser(User):
         blank=False,
     )
     date_of_birth = models.DateField(
-        blank=False,
+        blank=True,
+        null=True,
     )
     profile_photo = models.ImageField(
         upload_to="uploads/profile_photos/",
         blank=True,
+        null=True,
     )
 
     def __str__(self) -> str:
@@ -34,3 +38,8 @@ class CustomUser(User):
             return f"{self.first_name} {self.last_name}"
         else:
             return self.username
+
+
+@receiver(pre_save, sender=CustomUser)
+def use_email_as_username(sender, instance, *args, **kwargs):
+    instance.username = instance.email.lower()
