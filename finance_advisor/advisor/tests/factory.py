@@ -17,7 +17,7 @@ class AdvisorFactory(factory.django.DjangoModelFactory):
 class AdvisorRelationshipFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = AdvisorRelationship
-        django_get_or_create = ("email",)
+        django_get_or_create = ("advisee", "advisor")
 
     advisee = factory.SubFactory(AdviseeFactory)
     advisor = factory.SubFactory(AdvisorFactory)
@@ -26,6 +26,6 @@ class AdvisorRelationshipFactory(factory.django.DjangoModelFactory):
 class AdvisorRelationshipBillingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = AdvisorRelationshipBilling
-        django_get_or_create = ("email",)
+        django_get_or_create = ("relationship",)
 
     relationship = factory.SubFactory(AdvisorRelationshipFactory)
