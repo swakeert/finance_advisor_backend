@@ -39,8 +39,40 @@ class CustomUser(User):
         else:
             return self.username
 
+    class Meta:
+        verbose_name = "Custom User"
+        verbose_name_plural = "Custom Users"
+        ordering = ("first_name", "last_name", "username")
+
 
 @receiver(pre_save, sender=CustomUser)
 def use_email_as_username(sender, instance, *args, **kwargs):
     if instance.email:
         instance.username = instance.email.lower()
+
+
+class Currency(models.Model):
+    """
+    Model to hold currency information. Imported from pycountries via a migration.
+    See ISO 4217 for information on the currency itself. Or checkout pycountry's github.
+    """
+
+    code = models.CharField(
+        max_length=3,
+        # TODO: Implement min_length = 3 validation.
+    )
+    numeric_code = models.CharField(
+        max_length=3,
+        # TODO: Implement min_length = 3 validation.
+    )
+    name = models.CharField(
+        max_length=100,
+        help_text="Human Readable name for currency.",
+    )
+
+    def __str__(self) -> str:
+        return f"{self.code} - {self.name}"
+
+    class Meta:
+        verbose_name_plural = "Currencies"
+        ordering = ("code",)

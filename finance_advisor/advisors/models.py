@@ -10,6 +10,10 @@ class Advisor(CustomUser):
     clients = models.ManyToManyField(Advisee, through="AdvisorRelationship")
 
     # TODO: Preference for online/ offline. Location. Preference for city, area, country.
+    class Meta:
+        verbose_name = "Advisor"
+        verbose_name_plural = "Advisors"
+        ordering = ("first_name", "last_name", "username")
 
 
 class RelationshipStatusChoices(models.TextChoices):

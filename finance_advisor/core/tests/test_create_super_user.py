@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth import authenticate
+from django.core import management
 
 from finance_advisor.core.management.commands.create_super_user import create_super_user
 
@@ -10,7 +11,20 @@ def super_user():
 
 
 @pytest.mark.django_db
-def test_does_create_super_user(super_user):
+def test_create_super_user_works(super_user):
+    super_user = authenticate(username="username", password="password")  # nosec
+
+    assert super_user is not None
+    assert super_user.is_superuser
+
+
+@pytest.mark.django_db
+def test_does_create_super_user_works_from_cli(super_user):
+    management.call_command(  # nosec
+        "create_super_user",
+        username="username",
+        password="password",
+    )
     super_user = authenticate(username="username", password="password")  # nosec
 
     assert super_user is not None

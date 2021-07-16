@@ -45,6 +45,10 @@ INSTALLED_APPS = [
     "finance_advisor.advisees",
     "finance_advisor.advisors",
     "finance_advisor.risk_profiles",
+    "finance_advisor.assets",
+    "finance_advisor.liabilities",
+    "finance_advisor.cash_flows",
+    "finance_advisor.goals",
 ]
 
 # TODO: Implement proper environment based settings
