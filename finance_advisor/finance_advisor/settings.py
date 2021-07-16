@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "finance_advisor.core",
     "finance_advisor.advisees",
     "finance_advisor.advisors",
+    "finance_advisor.risk_profiles",
 ]
 
 # TODO: Implement proper environment based settings
