@@ -23,9 +23,22 @@ class AdviseeSerializer(serializers.ModelSerializer):
         )
 
 
+def case_insensitive_email_validation(data):
+    """
+    Check for case insensitive validation on email field
+    """
+    duplicate_exists = User.objects.filter(email__iexact=data).exists()
+    if duplicate_exists:
+        raise serializers.ValidationError("Email already in use.")
+    return data
+
+
 class AdviseeCreateSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
-        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+        required=True,
+        validators=[
+            case_insensitive_email_validation,
+        ],
     )
 
     password = serializers.CharField(

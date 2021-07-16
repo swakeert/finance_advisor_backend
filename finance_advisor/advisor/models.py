@@ -9,6 +9,8 @@ from finance_advisor.core.models import CustomUser
 class Advisor(CustomUser):
     clients = models.ManyToManyField(Advisee, through="AdvisorRelationship")
 
+    # TODO: Preference for online/ offline. Location. Preference for city, area, country.
+
 
 class RelationshipStatusChoices(models.TextChoices):
     INITIATED = "I", "Initiated"  # Started to talk, scheduled an appoint, etc.
@@ -45,4 +47,5 @@ class AdvisorRelationshipBilling(models.Model):
 
 @receiver(pre_save, sender=Advisor)
 def use_email_as_username(sender, instance, *args, **kwargs):
-    instance.username = instance.email.lower()
+    if instance.email:
+        instance.username = instance.email.lower()

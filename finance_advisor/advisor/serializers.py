@@ -8,7 +8,6 @@ class AdvisorSerializer(serializers.ModelSerializer):
         model = Advisor
         fields = [
             "id",
-            "username",
             "first_name",
             "last_name",
             "email",

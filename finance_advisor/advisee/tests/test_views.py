@@ -2,46 +2,22 @@ import pytest
 from django.contrib.auth import authenticate
 from rest_framework.test import APIClient
 
-from finance_advisor.advisee.tests.factory import AdviseeFactory
-from finance_advisor.advisor.tests.factory import (
-    AdvisorFactory,
-    AdvisorRelationshipFactory,
-)
+from finance_advisor.advisee.models import Advisee
+from finance_advisor.advisee.tests.factory import AdviseeFactory, mock_advisee_user
+from finance_advisor.advisor.tests.factory import mock_advisor_user, mock_relationship
 
 
 @pytest.fixture
-def advisee_user():
-    advisee = AdviseeFactory(email="fake_advisee@email.com")
-    advisee.set_password("test_password")
-    return advisee
-
-
-@pytest.fixture
-def advisor_user():
-    advisor = AdvisorFactory(email="fake_advisor@email.com")
-    advisor.set_password("test_password")
-    return advisor
-
-
-@pytest.fixture
-def relationship(advisee_user, advisor_user):
-    relationship = AdvisorRelationshipFactory(
-        advisee=advisee_user, advisor=advisor_user
-    )
-    return relationship
-
-
-@pytest.fixture
-def authenticated_api_client_as_advisee(advisee_user):
+def authenticated_api_client_as_advisee(mock_advisee_user):
     client = APIClient()
-    client.force_authenticate(advisee_user)
+    client.force_authenticate(mock_advisee_user)
     return client
 
 
 @pytest.fixture
-def authenticated_api_client_as_advisor(advisor_user):
+def authenticated_api_client_as_advisor(mock_advisor_user):
     client = APIClient()
-    client.force_authenticate(advisor_user)
+    client.force_authenticate(mock_advisor_user)
     return client
 
 
@@ -78,7 +54,7 @@ def test_create_validates_password():
 
 
 @pytest.mark.django_db
-def test_create_validates_email(advisee_user):
+def test_create_validates_email(mock_advisee_user):
     client = APIClient()
     response = client.post(
         "/api/v1/advisee/",
@@ -124,16 +100,16 @@ def test_create_works_and_stores_lowercase_email_as_username():
 
 
 @pytest.mark.django_db
-def test_unauthenticated_request_forbidden(advisee_user):
+def test_unauthenticated_request_forbidden(mock_advisee_user):
     client = APIClient()
     response = client.get("/api/v1/advisee/1/")
     assert response.status_code == 403
 
 
 @pytest.mark.django_db
-def test_does_return_self(advisee_user, authenticated_api_client_as_advisee):
+def test_does_return_self(mock_advisee_user, authenticated_api_client_as_advisee):
     response = authenticated_api_client_as_advisee.get(
-        f"/api/v1/advisee/{advisee_user.id}/"
+        f"/api/v1/advisee/{mock_advisee_user.id}/"
     )
     assert response.status_code == 200
     assert response.data == {
@@ -149,9 +125,11 @@ def test_does_return_self(advisee_user, authenticated_api_client_as_advisee):
 
 
 @pytest.mark.django_db
-def test_can_partial_update_self(advisee_user, authenticated_api_client_as_advisee):
+def test_can_partial_update_self(
+    mock_advisee_user, authenticated_api_client_as_advisee
+):
     response = authenticated_api_client_as_advisee.patch(
-        f"/api/v1/advisee/{advisee_user.id}/",
+        f"/api/v1/advisee/{mock_advisee_user.id}/",
         {
             "first_name": "John",
             "last_name": "Doe",
@@ -171,9 +149,9 @@ def test_can_partial_update_self(advisee_user, authenticated_api_client_as_advis
 
 
 @pytest.mark.django_db
-def test_can_full_update_self(advisee_user, authenticated_api_client_as_advisee):
-    response = authenticated_api_client_as_advisee.patch(
-        f"/api/v1/advisee/{advisee_user.id}/",
+def test_can_full_update_self(mock_advisee_user, authenticated_api_client_as_advisee):
+    response = authenticated_api_client_as_advisee.put(
+        f"/api/v1/advisee/{mock_advisee_user.id}/",
         {
             "email": "fake2@email.com",
             "first_name": "John",
@@ -196,6 +174,21 @@ def test_can_full_update_self(advisee_user, authenticated_api_client_as_advisee)
     }
 
 
+@pytest.mark.skip
+def test_can_update_profile_photo():
+    pass
+
+
+@pytest.mark.django_db
+def test_can_delete_self(mock_advisee_user, authenticated_api_client_as_advisee):
+    response = authenticated_api_client_as_advisee.delete(
+        f"/api/v1/advisee/{mock_advisee_user.id}/",
+    )
+    assert response.status_code == 204
+
+    assert Advisee.objects.filter(id=mock_advisee_user.id).count() == 0
+
+
 @pytest.mark.django_db
 def test_does_not_return_other_users(authenticated_api_client_as_advisee):
     advisee_2 = AdviseeFactory(email="fake2@email.com")
@@ -207,13 +200,13 @@ def test_does_not_return_other_users(authenticated_api_client_as_advisee):
 
 @pytest.mark.django_db
 def test_advisor_can_access_client(
-    advisee_user,
-    advisor_user,
-    relationship,
+    mock_advisee_user,
+    mock_advisor_user,
+    mock_relationship,
     authenticated_api_client_as_advisor,
 ):
     response = authenticated_api_client_as_advisor.get(
-        f"/api/v1/advisee/{advisee_user.id}/"
+        f"/api/v1/advisee/{mock_advisee_user.id}/"
     )
     assert response.status_code == 200
     assert response.data == {
@@ -230,13 +223,44 @@ def test_advisor_can_access_client(
 
 @pytest.mark.django_db
 def test_advisor_cannot_access_non_clients(
-    advisor_user,
-    relationship,
+    mock_advisor_user,
+    mock_relationship,
     authenticated_api_client_as_advisor,
 ):
     advisee_2 = AdviseeFactory(email="fake_advisee_2@email.com")
 
     response = authenticated_api_client_as_advisor.get(
         f"/api/v1/advisee/{advisee_2.id}/"
+    )
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_advisor_cannot_modify_clients(
+    mock_advisor_user,
+    mock_advisee_user,
+    mock_relationship,
+    authenticated_api_client_as_advisor,
+):
+    payload = [
+        f"/api/v1/advisee/{mock_advisee_user.id}/",
+        {
+            "email": "fake2@email.com",
+            "first_name": "John",
+            "last_name": "Doe",
+            "gender": "N",
+            "date_of_birth": "2018-01-01",
+            "phone": "1234567890",
+        },
+    ]
+
+    response = authenticated_api_client_as_advisor.post(*payload)
+    assert response.status_code == 405
+
+    response = authenticated_api_client_as_advisor.put(*payload)
+    assert response.status_code == 403
+
+    response = authenticated_api_client_as_advisor.delete(
+        f"/api/v1/advisee/{mock_advisee_user.id}/",
     )
     assert response.status_code == 403

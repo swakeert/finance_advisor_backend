@@ -21,7 +21,7 @@ class CustomUser(User):
     gender = models.CharField(
         max_length=1,
         choices=GenderChoices.choices,
-        blank=False,
+        blank=True,
     )
     date_of_birth = models.DateField(
         blank=True,
@@ -42,4 +42,5 @@ class CustomUser(User):
 
 @receiver(pre_save, sender=CustomUser)
 def use_email_as_username(sender, instance, *args, **kwargs):
-    instance.username = instance.email.lower()
+    if instance.email:
+        instance.username = instance.email.lower()

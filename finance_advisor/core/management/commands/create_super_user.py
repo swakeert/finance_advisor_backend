@@ -2,6 +2,17 @@ from django.contrib.auth import get_user_model
 from django.core.management import BaseCommand
 
 
+def create_super_user(username, password):
+    """
+    Create a superuser. If username already exists, it updates the password to the given password
+    """
+    User = get_user_model()
+    user, _ = User.objects.get_or_create(username=username)
+    user.set_password(password)
+    user.is_staff, user.is_superuser = True, True
+    user.save()
+
+
 class Command(BaseCommand):
     help = "Create a superuser through CLI. Only for local use. If username already exists, it updates the password to the given password"
 
@@ -19,8 +30,4 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, username, password, **options):
-        User = get_user_model()
-        user, _ = User.objects.get_or_create(username=username)
-        user.set_password(password)
-        user.is_staff, user.is_superuser = True, True
-        user.save()
+        create_super_user(username, password)
