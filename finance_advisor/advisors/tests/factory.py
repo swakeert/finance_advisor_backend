@@ -1,8 +1,8 @@
 import factory
 import pytest
 
-from finance_advisor.advisee.tests.factory import AdviseeFactory, mock_advisee_user
-from finance_advisor.advisor.models import (
+from finance_advisor.advisees.tests.factory import AdviseeFactory, mock_advisee_user
+from finance_advisor.advisors.models import (
     Advisor,
     AdvisorRelationship,
     AdvisorRelationshipBilling,

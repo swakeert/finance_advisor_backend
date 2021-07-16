@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from finance_advisor.advisee.models import Advisee
+from finance_advisor.advisees.models import Advisee
 from finance_advisor.core.models import CustomUser
 
 
@@ -14,7 +14,7 @@ class Advisor(CustomUser):
 
 class RelationshipStatusChoices(models.TextChoices):
     INITIATED = "I", "Initiated"  # Started to talk, scheduled an appoint, etc.
-    ESTABLISHED = "E", "Established"  # Current Financial advisor.
+    ESTABLISHED = "E", "Established"  # Current Financial advisors.
     TERMINATED = "T", "Terminated"  # Was established at some point, but not any more.
     OTHER = "O", "Others"  # Was initiated but not established or something else.
 

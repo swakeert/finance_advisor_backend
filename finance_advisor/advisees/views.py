@@ -1,11 +1,11 @@
 from rest_framework import mixins, permissions, viewsets
 
-from finance_advisor.advisee.models import Advisee
-from finance_advisor.advisee.serializers import (
+from finance_advisor.advisees.models import Advisee
+from finance_advisor.advisees.serializers import (
     AdviseeCreateSerializer,
     AdviseeSerializer,
 )
-from finance_advisor.advisor.permissions import IsClient
+from finance_advisor.advisors.permissions import IsClient
 from finance_advisor.core.permissions import IsSafeRequest, IsSelf
 
 

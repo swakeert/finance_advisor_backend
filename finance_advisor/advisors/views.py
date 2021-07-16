@@ -1,8 +1,8 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, mixins, permissions, viewsets
 
-from finance_advisor.advisor.models import Advisor
-from finance_advisor.advisor.serializers import AdvisorSerializer
+from finance_advisor.advisors.models import Advisor
+from finance_advisor.advisors.serializers import AdvisorSerializer
 from finance_advisor.core.permissions import IsSafeRequest, IsSelf
 
 

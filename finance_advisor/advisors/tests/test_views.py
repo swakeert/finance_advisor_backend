@@ -2,9 +2,9 @@ import pytest
 from django.contrib.auth import authenticate
 from rest_framework.test import APIClient
 
-from finance_advisor.advisee.tests.factory import AdviseeFactory, mock_advisee_user
-from finance_advisor.advisor.models import Advisor
-from finance_advisor.advisor.tests.factory import (
+from finance_advisor.advisees.tests.factory import AdviseeFactory, mock_advisee_user
+from finance_advisor.advisors.models import Advisor
+from finance_advisor.advisors.tests.factory import (
     AdvisorFactory,
     mock_advisor_user,
     mock_relationship,

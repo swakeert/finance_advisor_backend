@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from finance_advisor.advisee.views import (
+from finance_advisor.advisees.views import (
     AdviseeCreateViewSet,
     AdviseeRetrieveUpdateDestroyViewSet,
 )

@@ -1,7 +1,7 @@
 import factory
 import pytest
 
-from finance_advisor.advisee.models import Advisee
+from finance_advisor.advisees.models import Advisee
 
 
 class AdviseeFactory(factory.django.DjangoModelFactory):

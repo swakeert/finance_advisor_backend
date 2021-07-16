@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from finance_advisor.advisor.models import Advisor
+from finance_advisor.advisors.models import Advisor
 
 
 class AdvisorSerializer(serializers.ModelSerializer):

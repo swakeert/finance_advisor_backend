@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "django_filters",
     # Our app
     "finance_advisor.core",
-    "finance_advisor.advisee",
-    "finance_advisor.advisor",
+    "finance_advisor.advisees",
+    "finance_advisor.advisors",
 ]
 
 # TODO: Implement proper environment based settings

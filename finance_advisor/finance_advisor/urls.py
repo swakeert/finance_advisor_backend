@@ -18,8 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from finance_advisor.advisee.urls import advisee_router
-from finance_advisor.advisor.urls import advisor_router
+from finance_advisor.advisees.urls import advisee_router
+from finance_advisor.advisors.urls import advisor_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
