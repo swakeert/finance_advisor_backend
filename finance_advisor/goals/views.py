@@ -28,3 +28,6 @@ class GoalViewset(
         """
         advisee_id = self.kwargs["advisee_id"]
         return Goal.objects.filter(owner_id=advisee_id)
+
+    def perform_create(self, serializer):
+        serializer.save(owner_id=self.kwargs["advisee_id"])
