@@ -1,4 +1,4 @@
-from rest_framework import mixins, permissions, viewsets
+from rest_framework import viewsets
 
 from finance_advisor.advisees.permissions import (
     IsAdviseeFilteredByUrlSelf,

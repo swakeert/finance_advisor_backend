@@ -3,17 +3,6 @@ from django.contrib.auth import authenticate
 from rest_framework.test import APIClient
 
 from finance_advisor.advisees.models import Advisee
-from finance_advisor.advisees.tests.factory import (
-    AdviseeFactory,
-    authenticated_api_client_as_advisee,
-    mock_advisee_user,
-    mock_alternate_advisee_user,
-)
-from finance_advisor.advisors.tests.factory import (
-    authenticated_api_client_as_advisor,
-    mock_advisor_user,
-    mock_relationship,
-)
 
 
 def test_create_supports_only_post():

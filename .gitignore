@@ -119,6 +119,7 @@ GitHub.sublime-settings
 
 # Mac
 .DS_Store
+*.icloud
 
 # Local docker-reset file.
 reset.sh

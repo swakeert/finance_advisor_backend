@@ -1,28 +1,7 @@
 from collections import OrderedDict
 
 import pytest
-from django.contrib.auth import authenticate
 from rest_framework.test import APIClient
-
-from finance_advisor.advisees.models import Advisee
-from finance_advisor.advisees.tests.factory import (
-    AdviseeFactory,
-    authenticated_api_client_as_advisee,
-    mock_advisee_user,
-    mock_alternate_advisee_user,
-)
-from finance_advisor.advisors.tests.factory import (
-    authenticated_api_client_as_advisor,
-    mock_advisor_user,
-    mock_relationship,
-)
-from finance_advisor.core.tests.factory import mock_alternate_currency, mock_currency
-from finance_advisor.goals.models import Goal
-from finance_advisor.goals.tests.factory import (
-    GoalFactory,
-    mock_alternate_users_goal,
-    mock_goal,
-)
 
 
 @pytest.mark.django_db

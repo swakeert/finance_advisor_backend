@@ -1,4 +1,3 @@
-from django.urls import include, path
 from rest_framework import routers
 
 from finance_advisor.goals.views import GoalViewset

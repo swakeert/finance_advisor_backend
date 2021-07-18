@@ -1,7 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework.permissions import SAFE_METHODS, BasePermission
-
-from finance_advisor.core.models import CustomUser
+from rest_framework.permissions import BasePermission
 
 User = get_user_model()
 
