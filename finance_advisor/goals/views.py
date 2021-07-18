@@ -12,9 +12,7 @@ from finance_advisor.goals.models import Goal
 from finance_advisor.goals.serializers import GoalSerializer
 
 
-class GoalViewset(
-    viewsets.ModelViewSet,
-):
+class GoalViewset(viewsets.ModelViewSet):
     serializer_class = GoalSerializer
     permission_classes = [
         (IsAdviseeFilteredByUrlClient & IsOwnedByClient)

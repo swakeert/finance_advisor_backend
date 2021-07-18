@@ -17,7 +17,11 @@ class IncomeCategory(models.Model):
 
 class IncomeType(models.Model):
     name = models.CharField(max_length=50)
-    category = models.ForeignKey(IncomeCategory, on_delete=models.PROTECT)
+    category = models.ForeignKey(
+        IncomeCategory,
+        on_delete=models.PROTECT,
+        related_name="income_types",
+    )
 
     class Meta:
         ordering = (
@@ -70,7 +74,11 @@ class ExpenseCategory(models.Model):
 
 class ExpenseType(models.Model):
     name = models.CharField(max_length=50)
-    category = models.ForeignKey(ExpenseCategory, on_delete=models.PROTECT)
+    category = models.ForeignKey(
+        ExpenseCategory,
+        on_delete=models.PROTECT,
+        related_name="expense_types",
+    )
 
     class Meta:
         ordering = (
