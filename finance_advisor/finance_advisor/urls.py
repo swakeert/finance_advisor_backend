@@ -20,11 +20,13 @@ from django.urls import include, path
 
 from finance_advisor.advisees.urls import advisee_router
 from finance_advisor.advisors.urls import advisor_router
+from finance_advisor.goals.urls import goal_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/v1/advisee/", include(advisee_router.urls)),
+    path("api/v1/advisee/<int:advisee_id>/goals/", include(goal_router.urls)),
     path("api/v1/advisor/", include(advisor_router.urls)),
 ]
 

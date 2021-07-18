@@ -15,7 +15,7 @@ class IsSafeRequest(BasePermission):
 
 class IsSelf(BasePermission):
     """
-    Permission to check if currently authenticated user is trying to access their own profile.
+    Permission to check if currently authenticated user is trying to access their own object.
     """
 
     def has_object_permission(self, request, view, obj):
