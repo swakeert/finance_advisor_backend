@@ -16,7 +16,7 @@ repos:
   - id: mixed-line-ending
   - id: requirements-txt-fixer
 - repo: https://github.com/psf/black
-  rev: 21.6b0
+  rev: 21.7b0
   hooks:
   - id: black
 
@@ -39,7 +39,7 @@ repos:
     args: [--configfile, bandit.yaml]
 
 - repo: https://github.com/pycqa/isort
-  rev: 5.5.2
+  rev: 5.9.2
   hooks:
   - id: isort
     entry: isort --profile=black
