@@ -13,6 +13,8 @@ class AdvisorFactory(factory.django.DjangoModelFactory):
         model = Advisor
         django_get_or_create = ("email",)
 
+    password = factory.PostGenerationMethodCall("set_password", "test_password")
+
 
 class AdvisorRelationshipFactory(factory.django.DjangoModelFactory):
     class Meta:

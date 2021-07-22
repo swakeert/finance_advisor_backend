@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth import authenticate
 from rest_framework.test import APIClient
 
 from finance_advisor.advisors.models import Advisor
@@ -7,7 +8,7 @@ from finance_advisor.advisors.models import Advisor
 def test_unauthenticated_cannot_list():
     api_client = APIClient()
     response = api_client.get("/api/v1/advisors/")
-    assert response.status_code == 403
+    assert response.status_code == 401
 
 
 @pytest.mark.django_db
@@ -167,6 +168,27 @@ def test_update_stores_lowercase_email_as_username(
     assert response.data["email"] == "AdvIsoR_0@new-email.com"
 
     assert Advisor.objects.filter(username="advisor_0@new-email.com").count() == 1
+
+
+@pytest.mark.django_db
+def test_updates_email_and_username_correctly(
+    mock_advisor_user,
+    authenticated_api_client_as_advisor,
+):
+    response = authenticated_api_client_as_advisor.patch(
+        f"/api/v1/advisors/{mock_advisor_user.id}/",
+        {
+            "email": "advisor_0_NEW@email.com",
+        },
+    )
+    assert response.status_code == 200
+    assert response.data["email"] == "advisor_0_NEW@email.com"
+    user = authenticate(  # nosec
+        username="advisor_0_new@email.com",
+        password="test_password",
+    )
+    assert user is not None
+    assert user.username == "advisor_0_new@email.com"
 
 
 @pytest.mark.skip

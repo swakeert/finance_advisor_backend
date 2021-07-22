@@ -87,7 +87,7 @@ def test_create_works_and_stores_lowercase_email_as_username():
 def test_unauthenticated_request_forbidden(mock_advisee_user):
     api_client = APIClient()
     response = api_client.get("/api/v1/advisees/1/")
-    assert response.status_code == 403
+    assert response.status_code == 401
 
 
 @pytest.mark.django_db
@@ -106,6 +106,27 @@ def test_does_return_self(mock_advisee_user, authenticated_api_client_as_advisee
         "profile_photo": None,
         "phone": "",
     }
+
+
+@pytest.mark.django_db
+def test_updates_email_and_username_correctly(
+    mock_advisee_user,
+    authenticated_api_client_as_advisee,
+):
+    response = authenticated_api_client_as_advisee.patch(
+        f"/api/v1/advisees/{mock_advisee_user.id}/",
+        {
+            "email": "advisee_0_NEW@email.com",
+        },
+    )
+    assert response.status_code == 200
+    assert response.data["email"] == "advisee_0_NEW@email.com"
+    user = authenticate(  # nosec
+        username="advisee_0_new@email.com",
+        password="test_password",
+    )
+    assert user is not None
+    assert user.username == "advisee_0_new@email.com"
 
 
 @pytest.mark.django_db

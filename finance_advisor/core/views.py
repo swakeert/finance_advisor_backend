@@ -1,8 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions, viewsets
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from finance_advisor.core.models import Currency
-from finance_advisor.core.serializers import CurrencySerializer
+from finance_advisor.core.serializers import (
+    CurrencySerializer,
+    TokenObtainPairWithUserInfoSerializer,
+)
 
 
 class CurrencyReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -21,3 +25,7 @@ class CurrencyReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
         "code",
         "numeric_code",
     ]
+
+
+class TokenObtainPairWithUserInfoView(TokenObtainPairView):
+    serializer_class = TokenObtainPairWithUserInfoSerializer

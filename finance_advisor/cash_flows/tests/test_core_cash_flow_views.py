@@ -17,7 +17,7 @@ def mock_api_clients(
 def test_unauthenticated_cannot_view_core_incomes():
     api_client = APIClient()
     response = api_client.get("/api/v1/core/incomes/")
-    assert response.status_code == 403
+    assert response.status_code == 401
 
 
 @pytest.mark.django_db

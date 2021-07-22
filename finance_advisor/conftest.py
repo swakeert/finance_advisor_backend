@@ -12,14 +12,12 @@ from finance_advisor.core.tests.factory import CurrencyFactory
 @pytest.fixture
 def mock_advisee_user():
     advisee = AdviseeFactory(email="advisee_0@email.com")
-    advisee.set_password("test_password")
     return advisee
 
 
 @pytest.fixture
 def mock_alternate_advisee_user():
     advisee = AdviseeFactory(email="advisee_1@email.com")
-    advisee.set_password("test_password")
     return advisee
 
 
@@ -33,7 +31,6 @@ def authenticated_api_client_as_advisee(mock_advisee_user):
 @pytest.fixture
 def mock_advisor_user():
     advisor = AdvisorFactory(email="advisor_0@email.com")
-    advisor.set_password("test_password")
     return advisor
 
 

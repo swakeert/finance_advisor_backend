@@ -10,11 +10,11 @@ from finance_advisor.goals.models import Goal
 def test_unauthenticated_cannot_perform_goal_actions(mock_advisee_user):
     api_client = APIClient()
     response = api_client.get(f"/api/v1/advisees/{mock_advisee_user.id}/goals/")
-    assert response.status_code == 403
+    assert response.status_code == 401
     response = api_client.put(f"/api/v1/advisees/{mock_advisee_user.id}/goals/")
-    assert response.status_code == 403
+    assert response.status_code == 401
     response = api_client.post(f"/api/v1/advisees/{mock_advisee_user.id}/goals/")
-    assert response.status_code == 403
+    assert response.status_code == 401
 
 
 @pytest.mark.django_db

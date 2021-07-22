@@ -17,16 +17,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework_simplejwt.views import TokenRefreshView
 
 from finance_advisor.advisees.urls import advisee_router
 from finance_advisor.advisors.urls import advisor_router
 from finance_advisor.cash_flows.urls import advisee_cash_flow_router
 from finance_advisor.core.urls import core_router
+from finance_advisor.core.views import TokenObtainPairWithUserInfoView
 from finance_advisor.goals.urls import goal_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("api/v1/auth/login/", TokenObtainPairWithUserInfoView.as_view()),
+    path("api/v1/auth/token/refresh/", TokenRefreshView.as_view()),
     path("api/v1/advisees/", include(advisee_router.urls)),
     path("api/v1/advisees/<int:advisee_id>/goals/", include(goal_router.urls)),
     path("api/v1/advisees/<int:advisee_id>/", include(advisee_cash_flow_router.urls)),
