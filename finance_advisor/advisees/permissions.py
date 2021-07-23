@@ -10,7 +10,7 @@ class IsAdviseeFilteredByUrlSelf(BasePermission):
     """
 
     def has_permission(self, request, view):
-        advisee_id = view.kwargs["advisee_id"]
+        advisee_id = view.kwargs.get("advisee_id")
         if request.user.id is advisee_id:
             return True
         return False

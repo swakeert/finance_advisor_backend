@@ -31,7 +31,7 @@ class IsAdviseeFilteredByUrlClient(BasePermission):
 
     def has_permission(self, request, view):
         if request.user.is_authenticated:
-            advisee_id = view.kwargs["advisee_id"]
+            advisee_id = view.kwargs.get("advisee_id")
             try:
                 clients = request.user.customuser.advisor.clients.all().values_list(
                     "id",
