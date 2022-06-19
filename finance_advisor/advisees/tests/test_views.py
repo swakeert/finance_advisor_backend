@@ -270,3 +270,13 @@ def test_advisor_cannot_modify_clients(
         f"/api/v1/advisees/{mock_advisee_user.id}/",
     )
     assert response.status_code == 403
+
+
+@pytest.mark.skip
+def test_advisor_can_list_their_clients():
+    pass
+
+
+@pytest.mark.skip
+def test_advisee_can_crud_family():
+    pass
