@@ -7,7 +7,7 @@ factory-boy==3.2.0
 freezegun==1.1.0
 
 # Image storage
-Pillow==9.0.1
+Pillow==9.3.0
 pycountry==20.7.3
 
 # Test
